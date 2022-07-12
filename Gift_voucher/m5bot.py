@@ -3,7 +3,7 @@ import pandas as pd
 from datetime import date, datetime
 
 email_url = "https://appv4.zozo.vn/api/v1/email/send?"
-api_url = "http://127.0.0.1:8000/apis/v1/get-customers/"
+api_url = "http://mcivietnam.com/apis/v1/get-customers/"
 
 
 def create_email(name, voucher):
@@ -50,11 +50,11 @@ def get_voucher(amount):
     voucher = 0
     if amount == 5e6:
         voucher = 500000
-    if amount > 5e6 and amount <= 1e7:
+    if amount > 5e6 and amount <= 10e6:
         voucher = 1000000
-    if amount > 1e7 and amount <= 3e7:
+    if amount > 1e7 and amount <= 30e6:
         voucher = 1500000
-    if amount > 3e7:
+    if amount > 30e6:
         voucher = 3000000
     return voucher
 
@@ -63,10 +63,11 @@ def send_email():
     df = get_data()
     data = {}
     data['api_token'] = "RAlR9h8EFrSLdEGllv4YUyQwLrQa0e9fj6KwJLp1UQBH9ZqOs0xHjhfa56Nu"
-    data['subject'] = "Voucher giảm giá khóa học"
+    data['subject'] = "Quà tặng Voucher giảm giá khóa học"
     data['from_email'] = "cskh@mcivietnam.com"
     data['from_name'] = "MCI_BOT_5"
     data['reply_to'] = 'cskh@mcivietnam.com'
+    # email test
     data['to'] = "datnx@mcivietnam.com"
 
     for r in range(df.shape[0]):
@@ -76,6 +77,7 @@ def send_email():
         voucher_format = "{:,}".format(voucher)
         html = create_email(name, voucher_format)
         data['html'] = html
+        # email khach hang
         # data['to'] = email
         response = requests.post(email_url, data=data)
 
