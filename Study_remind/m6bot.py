@@ -4,7 +4,7 @@ import MySQLdb
 import pymysql
 import pandas as pd
 from datetime import date
-# pymysql.install_as_MySQLdb()
+
 
 
 host = "202.92.4.71"
@@ -14,7 +14,7 @@ db = "qfzovpphosting_MCI_Database"
 database = MySQLdb.connect(host=host, user=user, password=password, db=db)
 cursor = database.cursor()
 
-
+#lấy ra thông tin của học viên
 def getStudentInfo():
     query = """ 
     WITH tmp_tbl AS (
@@ -52,7 +52,7 @@ def getStudentInfo():
 
 
 
-
+#hàm gửi email
 def createEmail(name, finish_course, end_date, syllabus_link):
     mail_content = f'''
         <h5 style = "color: #4caf50; font-size: 16pt; font-family: 'Times New Roman', serif; background: white;"> Kính gửi anh/chị {name} </h5>
@@ -74,7 +74,7 @@ def createEmail(name, finish_course, end_date, syllabus_link):
     return mail_content
 
 
-
+#lấy ra lộ trình khóa học từ website dựa vào class_code
 def getSyllabus(course):
     if course[0: 2] == "PY" and course[-2:] == "L1":
         return "https://mcivietnam.com/course-detail-2/MCI-python-for-data-LJNQ0L/"
@@ -120,11 +120,11 @@ def sendEmail():
     for r in range(df.shape[0] - 1):
         if df.iloc[r]["email"] == df.iloc[r + 1]["email"]:
             if df.iloc[r]["so_ngay_con_lai"] == 3 and df.iloc[r + 1]["start_date"] > date.today():
-                print(df.iloc[r]["email"], df.iloc[r+1]["email"])
-                print(df.iloc[r]["start_date"], df.iloc[r+1]["start_date"])
-                print(df.iloc[r]["end_date"], df.iloc[r+1]["end_date"])
-                print(df.iloc[r]["class_code"], df.iloc[r+1]["class_code"])
-                print(df.iloc[r]["so_ngay_con_lai"], df.iloc[r+1]["so_ngay_con_lai"])
+                # print(df.iloc[r]["email"], df.iloc[r+1]["email"])
+                # print(df.iloc[r]["start_date"], df.iloc[r+1]["start_date"])
+                # print(df.iloc[r]["end_date"], df.iloc[r+1]["end_date"])
+                # print(df.iloc[r]["class_code"], df.iloc[r+1]["class_code"])
+                # print(df.iloc[r]["so_ngay_con_lai"], df.iloc[r+1]["so_ngay_con_lai"])
                 email = df.iloc[r]["email"]
                 name = df.iloc[r]["name"]
                 finish_course = df.iloc[r]["class_name"]
